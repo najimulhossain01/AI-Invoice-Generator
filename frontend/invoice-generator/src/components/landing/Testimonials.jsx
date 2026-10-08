@@ -1,0 +1,47 @@
+import { Quote } from "lucide-react";
+import { TESTIMONIALS } from "../../utils/data.js";
+
+const Testimonials = () => {
+    return (
+        <section id="testimonials" className="py-20 lg:py-28 bg-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-16">
+                    <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">
+                        What Our Users Say
+                    </h2>
+                    <p className="text-xl max-w-3xl mx-auto text-gray-700">
+                        Trusted by thousands of small businesses.
+                    </p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {TESTIMONIALS.map((testimonial, index) => (
+                        <div
+                            key={index}
+                            className="bg-gray-50 rounded-2xl shadow-sm p-8 hover:shadow-lg transition-all duration-300 relative"
+                        >
+                            <div className="absolute left-8 -top-4 w-12 h-12 bg-gradient-to-br from-blue-950 to-blue-900 rounded-full flex items-center justify-center text-white">
+                                <Quote className="w-6 h-6" />
+                            </div>
+                            <p className="text-lg font-medium text-gray-900 mb-6 leading-relaxed italic">
+                                {testimonial.quote}
+                            </p>
+                            <div className="flex items-center space-x-4">
+                                <img
+                                    src={testimonial.avatar}
+                                    alt={testimonial.author}
+                                    className="w-12 h-12 rounded-full border-2 border-gray-300 object-cover"
+                                />
+                                <div className="flex-1">
+                                    <h4 className="font-semibold text-gray-900">{testimonial.author}</h4>
+                                    <p className="text-gray-600 text-sm">{testimonial.title}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default Testimonials;
