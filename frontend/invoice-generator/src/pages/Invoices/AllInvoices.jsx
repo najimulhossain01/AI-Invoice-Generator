@@ -79,11 +79,13 @@ const AllInvoices = () => {
     });
   }, [invoices, SearchTerm, statusFilter]);
 
-  if (loading) return (
-    <div className="flex justify-center items-center w-8 h-8 animate-spin text-blue-600">
-      <Loader2 className="w-8 h-8 animate-spin text-primary" />
-    </div>
-  );
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+      </div>
+    );
+  }
 
 
 
