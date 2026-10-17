@@ -38,9 +38,9 @@ app.get("/", (req, res) => {
 });
 
 // Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/invoices", invoiceRoutes);
-app.use("/api/ai", aiRoutes);
+app.use(["/api/auth", "/auth"], authRoutes);
+app.use(["/api/invoices", "/invoices"], invoiceRoutes);
+app.use(["/api/ai", "/ai"], aiRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

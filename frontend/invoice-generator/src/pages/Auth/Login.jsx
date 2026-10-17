@@ -97,10 +97,10 @@ const Login = () => {
           setSuccess("Login Successful");
           login(token, response.data);
 
-          // Redirect based on role
+          // Redirect to dashboard
           setTimeout(() => {
-            window.location.href = "/dashboard";
-          }, 2000);
+            navigate("/dashboard");
+          }, 1000);
         } else {
           setError(response.data.message || "Invalid Credentials");
         }
