@@ -1,7 +1,7 @@
 const { GoogleGenAI } = require("@google/genai");
 const Invoice = require("../models/Invoice");
 
-const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
+const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY });
 
 const parseInvoiceFromText = async (req, res) => {
     const { text } = req.body;
