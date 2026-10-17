@@ -12,7 +12,7 @@ const app = express();
 // Middleware to handle CORS
 app.use(
     cors({
-        origin: ["http://localhost:5173", "http://localhost:3000"],
+        origin: true,
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization"],
         credentials: true,
@@ -22,6 +22,21 @@ app.use(
 // Middleware
 app.use(express.json());
 
+// Ensure database is connected for requests
+app.use(async (req, res, next) => {
+    try {
+        await connectDB();
+        next();
+    } catch (err) {
+        next(err);
+    }
+});
+
+// Health check / root route
+app.get("/", (req, res) => {
+    res.json({ message: "Invoice Generator API is running" });
+});
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/invoices", invoiceRoutes);
@@ -30,21 +45,21 @@ app.use("/api/ai", aiRoutes);
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: err.message || "Internal server error" });
 });
 
-// Start server
-const startServer = async () => {
-    try {
-        await connectDB();
-        const PORT = process.env.PORT || 5000;
-        app.listen(PORT, () => {
-            console.log(`Server running on port ${PORT}`);
+// Start server locally (Vercel manages the HTTP listener itself)
+if (!process.env.VERCEL) {
+    const PORT = process.env.PORT || 5000;
+    connectDB()
+        .then(() => {
+            app.listen(PORT, () => {
+                console.log(`Server running on port ${PORT}`);
+            });
+        })
+        .catch((err) => {
+            console.error("Failed to start local server:", err.message);
         });
-    } catch (error) {
-        console.log("Failed to start server:", error.message);
-        process.exit(1);
-    }
-};
+}
 
-startServer();
+module.exports = app;
